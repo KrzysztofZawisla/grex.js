@@ -4,14 +4,7 @@ import { join } from "path";
 import { exit } from "process";
 
 try {
-  const folderPath: string = join(
-    __dirname,
-    "..",
-    "src",
-    "native",
-    "native",
-    "node-target",
-  );
+  const folderPath: string = join(__dirname, "..", "lib", "native", "native");
   if (!existsSync(folderPath)) {
     mkdirSync(folderPath);
   }

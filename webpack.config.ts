@@ -30,6 +30,28 @@ const getEntryPoint = (
   return path.join(__dirname, "src", folder, wasmFolder, "index.ts");
 };
 
+const getBabelTarget = (isTargetedToBrowser: boolean): string => {
+  return isTargetedToBrowser
+    ? "last 2 Chrome versions, last 2 Firefox versions"
+    : "current";
+};
+
+const getWasmPluginInstance = (
+  isTargetedToBrowser: boolean,
+): WasmPackPlugin => {
+  return new WasmPackPlugin({
+    crateDirectory: path.resolve(__dirname, "src", "wasm", "native"),
+    outDir: path.join(
+      __dirname,
+      "src",
+      "wasm",
+      "native",
+      `pkg-${isTargetedToBrowser ? "browser" : "node"}`,
+    ),
+    extraArgs: "--no-typescript",
+  });
+};
+
 const setupConfig = (
   _environment: unknown,
   { mode }: { mode: string },
@@ -42,20 +64,10 @@ const setupConfig = (
     isTargetedToBrowser: boolean = false,
   ): Configuration => {
     const entryPoint: string = getEntryPoint(isWASM, isTargetedToBrowser);
-    const babelTarget: string = isTargetedToBrowser
-      ? "last 2 Chrome versions, last 2 Firefox versions"
-      : "current";
-    const wasmPluginInstance = new WasmPackPlugin({
-      crateDirectory: path.resolve(__dirname, "src", "wasm", "native"),
-      outDir: path.join(
-        __dirname,
-        "src",
-        "wasm",
-        "native",
-        `pkg-${isTargetedToBrowser ? "browser" : "node"}`,
-      ),
-      extraArgs: "--no-typescript",
-    });
+    const babelTarget: string = getBabelTarget(isTargetedToBrowser);
+    const wasmPluginInstance: WasmPackPlugin = getWasmPluginInstance(
+      isTargetedToBrowser,
+    );
     const config: Configuration = {
       mode: mode === "development" ? mode : "production",
       entry: entryPoint,
@@ -110,13 +122,6 @@ const setupConfig = (
                   ],
                 },
               },
-              /*{
-                loader: "@stavalfi/babel-plugin-module-resolver-loader",
-                options: {
-                  root: [path.join(__dirname, "src")],
-                  extensions: [".js", ".d.ts", ".ts"],
-                },
-              },*/
             ],
           },
           !isWASM && {
@@ -125,7 +130,7 @@ const setupConfig = (
               {
                 loader: "node-loader",
                 options: {
-                  name: "index.node",
+                  name: "native/index.node",
                 },
               },
             ],
@@ -134,25 +139,6 @@ const setupConfig = (
             test: /\.wasm$/,
             type: "webassembly/sync",
           },
-          /*isWASM && {
-            test: /\.wasm$/,
-            //type: "webassembly/async",
-            use: ["wasm-loader"],
-          },*/
-          /*isWASM && {
-            test: /\.rs$/,
-            type: "webassembly/async",
-            use: {
-              loader: "rust-native-wasm-loader",
-              options: {
-                release: true,
-                cargoWeb: true,
-                wasmBindgen: {
-                  wasm2es6js: true,
-                },
-              },
-            },
-          },*/
         ].filter(Boolean) as (RuleSetRule | "...")[],
       },
       output: {
@@ -183,18 +169,6 @@ const setupConfig = (
           dry: true,
           dangerouslyAllowCleanPatternsOutsideProject: true,
         }),
-        /*new RemovePlugin({
-          after: {
-            include: [
-              path.join(
-                __dirname,
-                "src",
-                isWASM ? "native-addon" : "wasm",
-                indexDTS,
-              ),
-            ],
-          },
-        }),*/
         mode !== "development" &&
           new BundleAnalyzerPlugin({
             openAnalyzer: false,
@@ -213,30 +187,6 @@ const setupConfig = (
           isFirstWASMBrowserCompile &&
           isTargetedToBrowser &&
           wasmPluginInstance,
-        /*new CopyPlugin({
-          patterns: [
-            {
-              from: path.join(
-                __dirname,
-                "src",
-                isWASM ? "wasm" : "native-addon",
-                isWASM ? (isTargetedToBrowser ? "browser" : "node") : "",
-                indexDTS,
-              ),
-              to: path.join(
-                __dirname,
-                "lib",
-                isWASM ? "wasm" : "native",
-                isWASM ? (isTargetedToBrowser ? "browser" : "node") : "",
-                indexDTS,
-              ),
-              noErrorOnMissing: false,
-            },
-          ],
-          options: {
-            concurrency: 100,
-          },
-        }),*/
         new ESLintPlugin({
           extensions: ["ts", "tsx"],
         }),
