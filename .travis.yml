@@ -1,0 +1,17 @@
+os:
+  - osx
+  - linux
+language: node_js
+node_js:
+  - node
+cache: cargo
+before_install:
+  - curl https://sh.rustup.rs -sSf > /tmp/rustup.sh
+  - sh /tmp/rustup.sh -y
+  - export PATH="$HOME/.cargo/bin:$PATH"
+  - source "$HOME/.cargo/env"
+  - yarn
+script:
+  - yarn test
+  - COMMIT_MESSAGE=$(git log --format=%B --no-merges -n 1 | tr -d '\n')
+  - yarn run upload-binary || exit 0

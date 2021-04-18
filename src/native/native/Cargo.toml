@@ -1,0 +1,19 @@
+[package]
+name = "grex"
+version = "0.1.0"
+authors = ["Krzysztof Zawisła <snowdropcurvemaster@gmail.com>"]
+license = "MIT"
+build = "build.rs"
+edition = "2018"
+exclude = ["artifacts.json", "index.node"]
+
+[lib]
+name = "grex"
+crate-type = ["cdylib"]
+
+[build-dependencies]
+neon-build = "0.5.1"
+
+[dependencies]
+neon = "0.5.1"
+grex = "1.1.0"

@@ -1,0 +1,21 @@
+[package]
+name = "grex-js"
+version = "0.1.0"
+authors = ["Krzysztof Zawisła <snowdropcurvemaster@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+wasm-bindgen = { version = "0.2.63", features = ["serde-serialize"] }
+grex = "1.1.0"
+serde_json = "1.0.32"
+serde_derive = "1.0.80"
+serde = "1.0.80"
+wee_alloc = { version = "0.4.5", optional = true }
+js-sys = "0.3.50"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.13"
+
