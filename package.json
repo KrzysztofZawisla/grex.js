@@ -1,6 +1,6 @@
 {
   "name": "grex.js",
-  "version": "0.0.1",
+  "version": "2.0.1",
   "main": "lib/wasm/browser/index.js",
   "module": "lib/wasm/browser/index-module.js",
   "types": "lib/wasm/browser/index.d.ts",
@@ -10,7 +10,6 @@
   },
   "author": "Krzysztof Zawisła <zawislakrzysztof.zk@gmail.com>",
   "license": "MIT",
-  "private": true,
   "scripts": {
     "install": "node-pre-gyp install || yarn run build-and-package-addon",
     "pre-build-wasm": "cd src/wasm/native && cargo build --release --target wasm32-unknown-unknown",
@@ -40,7 +39,7 @@
     "host": "https://github.com/KrzysztofZawisla/grex.js/releases/download/",
     "remote_path": "native-{version}",
     "package_name": "{node_abi}-{platform}-{arch}.tar.gz",
-    "module_path": "./src/native/native/node-target",
+    "module_path": "./dist/native",
     "pkg_path": "."
   },
   "husky": {
