@@ -39,7 +39,7 @@
     "host": "https://github.com/KrzysztofZawisla/grex.js/releases/download/",
     "remote_path": "native-{version}",
     "package_name": "{node_abi}-{platform}-{arch}.tar.gz",
-    "module_path": "./dist/native",
+    "module_path": "./lib/native",
     "pkg_path": "."
   },
   "husky": {
