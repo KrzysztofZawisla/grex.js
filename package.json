@@ -1,6 +1,6 @@
 {
   "name": "grex.js",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "main": "lib/wasm/browser/index.js",
   "module": "lib/wasm/browser/index-module.js",
   "types": "lib/wasm/browser/index.d.ts",
