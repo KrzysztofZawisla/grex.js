@@ -86,10 +86,10 @@ Function instantiation has the same logic as version for the browser.
 
 ### Usage with native module for node
 
-MacOS and Linux support:
-NodeJS version equal or higher than: `10`.
-Windows support:
-NodeJS version equal or higher than: `15`.
+MacOS and Linux support:  
+NodeJS version equal or higher than: `10`.  
+Windows support:  
+NodeJS version equal or higher than: `15`.  
 
 Import:
 
