@@ -1,3 +1,10 @@
+/** Enum of available options in param: `conversionOf` of `config` argument
+ *
+ * @example
+ * const regex: string = buildRegex(["a", "aa", "123"], {
+ *  conversionOf: [ConversionOfEnum.Digit, ConversionOfEnum.Word]
+ * });
+ */
 export const enum ConversionOfEnum {
   Digit = "digit",
   NoDigit = "noDigit",
@@ -10,6 +17,10 @@ export const enum ConversionOfEnum {
   CapturingGroup = "capturingGroup",
 }
 
+/** Type of `conversionOf` param of the `config` argument
+ *
+ * @see Config, buildRegex, BuildRegex
+ */
 export type ConversionOf =
   | "digit"
   | "noDigit"
@@ -21,12 +32,16 @@ export type ConversionOf =
   | "caseInsensitivity"
   | "capturingGroup";
 
+/** Type of `buildRegex` function
+ *
+ * @see buildRegex
+ */
 export type BuildRegex = (testCaces: string[], config?: Config) => string;
 
 /**  GrexJS wrapper interface */
 export interface GrexJS {
   /**
-   * Basic function to build Regex based on input array
+   * Function to build Regex based on input array
    *
    * @example
    * const regex: string = buildRegex(["a", "aa", "aaa"]);
@@ -34,16 +49,40 @@ export interface GrexJS {
    * @param {Array<ConversionOf | ConversionOfEnum>} testCaces
    * @param {Config} config
    * @returns {string} Returns regular expresion
+   * @type {BuildRegex}
+   * @see @link https://github.com/pemistahl/grex#52--the-library-top-
    */
   buildRegex: BuildRegex;
 }
 
-/** Config type */
+/** Config type
+ *
+ * @see buildRegex BuildRegex
+ * @see @link https://github.com/pemistahl/grex#52--the-library-top-
+ */
 export interface Config {
+  /**
+   * @see @link https://github.com/pemistahl/grex#52--the-library-top-
+   */
   conversionOf?: (ConversionOf | ConversionOfEnum)[];
+  /**
+   * @see @link https://github.com/pemistahl/grex#523-convert-repeated-substrings
+   */
   minimumRepetitions?: number;
+  /**
+   * @see @link https://github.com/pemistahl/grex#528-syntax-highlighting
+   */
   syntaxHighlighting?: boolean;
+  /**
+   * @see @link https://github.com/pemistahl/grex#524-escape-non-ascii-characters
+   */
   escapedNonASCIIChars?: boolean;
+  /**
+   * @see @link https://github.com/pemistahl/grex#524-escape-non-ascii-characters
+   */
   surrogatePairs?: boolean;
+  /**
+   * @see @link https://github.com/pemistahl/grex#523-convert-repeated-substrings
+   */
   minimumSubstringLength?: number;
 }

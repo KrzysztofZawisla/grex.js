@@ -7,4 +7,5 @@ import type {
 } from "./types";
 export type { ConversionOfEnum, ConversionOf, BuildRegex, Config, GrexJS };
 
+/** Load function type  */
 export type Load = () => Promise<BuildRegex>;

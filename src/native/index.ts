@@ -12,14 +12,16 @@ export type { ConversionOfEnum, ConversionOf, BuildRegex, GrexJS, Config };
 const grexJS: GrexJS = grexJSAddon as GrexJS;
 
 /**
- * Basic function to build Regex based on input array
+ * Function to build Regex based on input array
  *
  * @example
  * const regex: string = buildRegex(["a", "aa", "aaa"]);
  * console.log(regex); // "^a(?:aa?)?$"
  * @param {Array<ConversionOf | ConversionOfEnum>} testCaces
  * @param {Config} config
- * @returns {string} Returns regular expresion.
+ * @returns {string} Returns regular expresion
+ * @type {BuildRegex}
+ * @see @link https://github.com/pemistahl/grex#52--the-library-top-
  */
 export const buildRegex: BuildRegex = grexJS.buildRegex;
 

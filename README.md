@@ -28,72 +28,6 @@ Via pnpm:
 pnpm i grex.js
 ```
 
-## API Reference
-
-```ts
-export const enum ConversionOfEnum {
-  Digit = "digit",
-  NoDigit = "noDigit",
-  Space = "space",
-  NoSpace = "noSpace",
-  Word = "word",
-  NoWord = "noWord",
-  Repetition = "repetition",
-  CaseInsensitivity = "caseInsensitivity",
-  CapturingGroup = "capturingGroup",
-}
-
-export type ConversionOf =
-  | "digit"
-  | "noDigit"
-  | "space"
-  | "noSpace"
-  | "word"
-  | "noWord"
-  | "repetition"
-  | "caseInsensitivity"
-  | "capturingGroup";
-
-export type BuildRegex = (testCaces: string[], config?: Config) => string;
-
-/**  GrexJS wrapper interface */
-export interface GrexJS {
-  /**
-   * Basic function to build Regex based on input array
-   *
-   * @example
-   * const regex: string = buildRegex(["a", "aa", "aaa"]);
-   * console.log(regex); // "^a(?:aa?)?$"
-   * @param {Array<ConversionOf | ConversionOfEnum>} testCaces
-   * @param {Config} config
-   * @returns {string} Returns regular expresion
-   */
-  buildRegex: BuildRegex;
-}
-
-/** Config type */
-export interface Config {
-  conversionOf?: (ConversionOf | ConversionOfEnum)[];
-  minimumRepetitions?: number;
-  syntaxHighlighting?: boolean;
-  escapedNonASCIIChars?: boolean;
-  surrogatePairs?: boolean;
-  minimumSubstringLength?: number;
-}
-
-// Avaible only in wasm version
-export type Load = () => Promise<BuildRegex>;
-
-// Avaible only in wasm version
-export default load: Load;
-
-// Avaible only in native version
-export default grexJS: GrexJS;
-
-// Avaible only in native version
-export const buildRegex: BuildRegex;
-```
-
 ## Usage
 
 ### With wasm module for browser
@@ -152,6 +86,11 @@ Function instantiation has the same logic as version for the browser.
 
 ### Usage with native module for node
 
+MacOS and Linux support:
+NodeJS version equal or higher than: `10`.
+Windows support:
+NodeJS version equal or higher than: `15`.
+
 Import:
 
 ```ts
@@ -173,3 +112,131 @@ const { buildRegex }: GrexJS = await import("grex.js/native");
 ```
 
 Also works with `amd, commonjs and system` library targets.
+
+## API Reference
+
+```ts
+/** Enum of available options in param: `conversionOf` of `config` argument
+ *
+ * @example
+ * const regex: string = buildRegex(["a", "aa", "123"], {
+ *  conversionOf: [ConversionOfEnum.Digit, ConversionOfEnum.Word]
+ * });
+ */
+export const enum ConversionOfEnum {
+  Digit = "digit",
+  NoDigit = "noDigit",
+  Space = "space",
+  NoSpace = "noSpace",
+  Word = "word",
+  NoWord = "noWord",
+  Repetition = "repetition",
+  CaseInsensitivity = "caseInsensitivity",
+  CapturingGroup = "capturingGroup",
+}
+
+/** Type of `conversionOf` param of the `config` argument
+ *
+ * @see Config, buildRegex, BuildRegex
+ */
+export type ConversionOf =
+  | "digit"
+  | "noDigit"
+  | "space"
+  | "noSpace"
+  | "word"
+  | "noWord"
+  | "repetition"
+  | "caseInsensitivity"
+  | "capturingGroup";
+
+/** Type of `buildRegex` function
+ *
+ * @see buildRegex
+ */
+export type BuildRegex = (testCaces: string[], config?: Config) => string;
+
+/**  GrexJS wrapper interface */
+export interface GrexJS {
+  /**
+   * Function to build Regex based on input array
+   *
+   * @example
+   * const regex: string = buildRegex(["a", "aa", "aaa"]);
+   * console.log(regex); // "^a(?:aa?)?$"
+   * @param {Array<ConversionOf | ConversionOfEnum>} testCaces
+   * @param {Config} config
+   * @returns {string} Returns regular expresion
+   * @type {BuildRegex}
+   * @see @link https://github.com/pemistahl/grex#52--the-library-top-
+   */
+  buildRegex: BuildRegex;
+}
+
+/** Config type
+ *
+ * @see buildRegex BuildRegex
+ * @see @link https://github.com/pemistahl/grex#52--the-library-top-
+ */
+export interface Config {
+  /**
+   * @see @link https://github.com/pemistahl/grex#52--the-library-top-
+   */
+  conversionOf?: (ConversionOf | ConversionOfEnum)[];
+  /**
+   * @see @link https://github.com/pemistahl/grex#523-convert-repeated-substrings
+   */
+  minimumRepetitions?: number;
+  /**
+   * @see @link https://github.com/pemistahl/grex#528-syntax-highlighting
+   */
+  syntaxHighlighting?: boolean;
+  /**
+   * @see @link https://github.com/pemistahl/grex#524-escape-non-ascii-characters
+   */
+  escapedNonASCIIChars?: boolean;
+  /**
+   * @see @link https://github.com/pemistahl/grex#524-escape-non-ascii-characters
+   */
+  surrogatePairs?: boolean;
+  /**
+   * @see @link https://github.com/pemistahl/grex#523-convert-repeated-substrings
+   */
+  minimumSubstringLength?: number;
+}
+
+/** Load function type  */
+export type Load = () => Promise<BuildRegex>; // avaible only in wasm module
+
+/** Loads and instantiates `buildRegex` function
+ *
+ * @example
+ * import { load, BuildRegex } from "grex.js";
+ * const buildRegex: BuildRegex = await load();
+ * @example
+ * import { load, BuildRegex } from "grex.js";
+ * (async (): void => {
+ *   const buildRegex: BuildRegex = await load();
+ * })();
+ * @type {Load}
+ * @returns {Promise<BuildRegex>} returns `Promise` with imported and instantiated `buildRegex` function
+ */
+export (default) const load: Load = async () => Promise<BuildRegex>; // avaible only in wasm module
+
+/**
+ * Function to build Regex based on input array
+ *
+ * @example
+ * const regex: string = buildRegex(["a", "aa", "aaa"]);
+ * console.log(regex); // "^a(?:aa?)?$"
+ * @param {Array<ConversionOf | ConversionOfEnum>} testCaces
+ * @param {Config} config
+ * @returns {string} Returns regular expresion
+ * @type {BuildRegex}
+ * @see @link https://github.com/pemistahl/grex#52--the-library-top-
+ */
+export const buildRegex: BuildRegex = grexJS.buildRegex;
+
+/**  GrexJS wrapper */
+export default grexJS: GrexJS;
+```
