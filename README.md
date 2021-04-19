@@ -233,8 +233,8 @@ export (default) const load: Load = async () => Promise<BuildRegex>; // avaible 
  * @type {BuildRegex}
  * @see @link https://github.com/pemistahl/grex#52--the-library-top-
  */
-export const buildRegex: BuildRegex = grexJS.buildRegex;
+export const buildRegex: BuildRegex; // avaible only in native module
 
 /**  GrexJS wrapper */
-export default grexJS: GrexJS;
+export default grexJS: GrexJS; // avaible only in native module
 ```
