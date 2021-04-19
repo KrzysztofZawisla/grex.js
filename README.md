@@ -55,7 +55,7 @@ const { load }: GrexJS = await import("grex.js");
 Import for JavaScript targets other than UMD or ES modules:
 
 ```ts
-"grex.js/wasm/browser/index.(amd|commonjs|system).js";
+"grex.js/lib/wasm/browser/index.(amd|commonjs|system).js";
 ```
 
 ### Function instantiation
@@ -78,7 +78,7 @@ import { load, BuildRegex } from "grex.js";
 
 ### Usage with wasm module for node
 
-Import system is the same as wasm module for browser. You have to change `"grex.js"` in import statment to `"grex.js/wasm/node"`.
+Import system is the same as wasm module for browser. You have to change `"grex.js"` in import statment to `"grex.js/lib/wasm/node"`.
 
 Also works with `amd, commonjs and system` library targets.
 
@@ -92,21 +92,21 @@ NodeJS version equal or higher than: `14`.
 Import:
 
 ```ts
-import { buildRegex } from "grex.js/native";
+import { buildRegex } from "grex.js/lib/native";
 // or
-import grexJS from "grex.js/native";
+import grexJS from "grex.js/lib/native";
 // or
-import { GrexJS } from "grex.js/native";
-const grexJS: GrexJS = require("grex.js/native");
+import { GrexJS } from "grex.js/lib/native";
+const grexJS: GrexJS = require("grex.js/lib/native");
 // or
-import { GrexJS } from "grex.js/native";
-const { buildRegex }: GrexJS = require("grex.js/native");
+import { GrexJS } from "grex.js/lib/native";
+const { buildRegex }: GrexJS = require("grex.js/lib/native");
 // or
-import { GrexJS } from "grex.js/native";
-const grexJS: GrexJS = await import("grex.js/native");
+import { GrexJS } from "grex.js/lib/native";
+const grexJS: GrexJS = await import("grex.js/lib/native");
 // or
-import { GrexJS } from "grex.js/native";
-const { buildRegex }: GrexJS = await import("grex.js/native");
+import { GrexJS } from "grex.js/lib/native";
+const { buildRegex }: GrexJS = await import("grex.js/lib/native");
 ```
 
 Also works with `amd, commonjs and system` library targets.
